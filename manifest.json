@@ -1,0 +1,21 @@
+{
+    "name" : "Browserstack",
+    "version" : "1.0",
+    "description" : "",
+    "manifest_version" : 2,
+    "permissions" : [
+        "https://www.browserstack.com/*",
+        "declarativeContent",
+        "activeTab",
+        "tabs"
+    ],
+    "browser_action":{
+        "default_popup" : "popup.html"
+    },
+    "background":{
+        "scripts":[
+            "js/background.js"
+        ],
+        "persistent":false
+    }
+}

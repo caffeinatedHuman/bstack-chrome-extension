@@ -1,0 +1,59 @@
+body{
+    overflow: auto;
+    background-color: #142433;
+    color: white;
+}
+#branding,#bar {
+    width:100%;
+    margin-bottom: 3%;
+    overflow: auto;
+}
+#bar{
+    /* padding-left: 1%; */
+    /* overflow: visible; */
+}
+#brand-image{
+    width: 97%;
+    float: left;
+    margin-bottom: 3%;
+}
+#brand-name{
+    margin-left: 1%;
+}
+#selectors{
+    display: inline;
+    font-size: 1em;
+    overflow: auto;
+}
+#platform,#os,#mobiles,#browser{
+    width: 100%;
+    overflow: auto;
+}
+#context-image{
+    float: left;
+    width: 10%;
+}
+#list-platform,#list-os,#list-mobiles,#list-browser{
+    width:90%;
+    float: right;
+    font-size: 1em;
+}
+#list-mobiles{
+    display: none;
+}
+#test-url-text{
+    margin-top:5%; 
+    margin-bottom: 0;
+}
+#submit-button{
+    width: 100%;
+    padding-top: 4%;
+    padding-bottom: 4%;
+    margin-top: 5%; 
+    background-color: #009cfc;
+    border-style: none;
+}
+#submit-button:hover{
+    cursor: pointer;
+    background-color: #7dfd94;
+}

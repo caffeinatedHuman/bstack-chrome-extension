@@ -6,6 +6,7 @@ var selectMobile = document.getElementById("list-mobiles");
 var selectBrowser = document.getElementById("list-browser");
 var submitButton = document.getElementById("submit-button");
 
+// Resposnible to perform AJAX Call
 function ajaxCall(){
     var httpRequest = new XMLHttpRequest();
     httpRequest.open('GET','https://www.browserstack.com/list-of-browsers-and-platforms.json?product=live',true);
@@ -25,6 +26,7 @@ function ajaxCall(){
     httpRequest.send();
 }
 
+// Responsible to check which platform has been currently selected, based on which the next action is fired
 function platformFunction(caller){
     console.log("Platform selected is : "+currentPlatform());
     if (caller=="platform"){
@@ -51,6 +53,7 @@ function platformFunction(caller){
     }
 }
 
+// Responsible to generate the next element's options in the select tag.
 function sampleGenerator(section){
     var selectPlatform = document.getElementById("list-platform");
     var selectOS = document.getElementById("list-os");
@@ -140,6 +143,8 @@ function sampleGenerator(section){
         //No need to build this.
     }
 }
+
+// Responsible to clear the existing select tag.
 function cleanPreviousSelection(segment){
     if (segment=="OS"){
         toClean = document.getElementById("list-os");
@@ -152,11 +157,17 @@ function cleanPreviousSelection(segment){
         toClean.innerHTML = "";
     }
 }
+
+// Helper functions:
+
+// Find current Device:
 function currentDevice(){
     var deviceSelectionOption_value = selectMobile.options[selectMobile.selectedIndex].value;
     // console.log(deviceSelectionOption_value);
     return deviceSelectionOption_value;
 }
+
+// Find current browser (used only when creating the final URL):
 function currentBrowser_forURL(property){
     var selectBrowser = document.getElementById("list-browser");
     if (property=="id"){
@@ -167,6 +178,7 @@ function currentBrowser_forURL(property){
         return browserSelectedOption_value;
     }
 }
+// Find the current OS (used only when creating the final URL):
 function currentOS_forURL(property){
     var selectOS = document.getElementById("list-os");
     if (property=="id"){
@@ -177,12 +189,16 @@ function currentOS_forURL(property){
         return osSelectedOption_value;
     }
 }
+
+// Find the current OS's version:
 function currentOS_version(){
     var selectOS = document.getElementById("list-os");
     var osSelectedOption = selectOS.options[selectOS.selectedIndex].text;
     // console.log(osSelectedOption);
     return osSelectedOption
 }
+
+// Find the current platform: i.e. Deskttop or Mobile
 function currentPlatform(){
     var selectPlatform = document.getElementById("list-platform");
     var platformSelectedOption = selectPlatform.options[selectPlatform.selectedIndex].text;
@@ -190,6 +206,7 @@ function currentPlatform(){
     return platformSelectedOption
 }
 
+// Responsible to make call to the Browserstack 
 function browserstack(){
     var staticURL = "https://live.browserstack.com/dashboard#";
     // Variables common across platforms:
@@ -216,6 +233,7 @@ function browserstack(){
     window.open(finalURL,"_blank");
 }
 
+// Initialise onchange event to the select tags:
 function init(){
     selectPlatform.onchange = function() {
         platformFunction('platform');
@@ -231,5 +249,7 @@ function init(){
     }
 
 }
+
+
 init();
 ajaxCall();

@@ -1,6 +1,5 @@
 var responseJson;
 
-var selectPlatform = document.getElementById("list-platform");
 var selectOS = document.getElementById("list-os");
 var selectMobile = document.getElementById("list-mobiles");
 var selectBrowser = document.getElementById("list-browser");
@@ -17,29 +16,38 @@ function ajaxCall(){
             console.log(responseJson);
             
             sampleGenerator("platform");
+            
         }else{
-            // console.log('AJAX Request not ready.');
-            // console.log('Current State:'+httpRequest.readyState);
+            console.log('AJAX Request not ready.');
         }
     };  
     httpRequest.send();
 }
 
 function platformFunction(caller){
-    console.log("Platform selected is : "+currentPlatform());
-    if (caller=="platform"){
+    if (caller == "platform"){
+        var divPlatform = document.getElementById("platform");
+        var divOS = document.getElementById("os");
+        var divMobiles = document.getElementById("mobiles");
+        var divBrowser = document.getElementById("browser");
         var selectMobile = document.getElementById("list-mobiles");
         var selectBrowser = document.getElementById("list-browser");
-        if (currentPlatform()=="mobile"){
-            selectMobile.style.display = "block";
-            selectBrowser.style.display = "none";
+        if (currentPlatform() == "mobile"){
+            // selectMobile.style.display = "block";
+            // selectBrowser.style.display = "none";
+            
+            divMobiles.style.display = "block";
+            divBrowser.style.display = "none";
         }else{
-            selectMobile.style.display = "none";
-            selectBrowser.style.display = "block";
+            // selectMobile.style.display = "none";
+            // selectBrowser.style.display = "block";
+            
+            divMobiles.style.display = "none";
+            divBrowser.style.display = "block";
         }
         sampleGenerator("OS");
     }else if (caller == "OS"){
-        if (currentPlatform()=="mobile"){
+        if (currentPlatform() == "mobile"){
             var selectMobile = document.getElementById("list-mobiles");
             selectMobile.style.display = "block";
             sampleGenerator("mobiles");
@@ -52,54 +60,71 @@ function platformFunction(caller){
 }
 
 function sampleGenerator(section){
-    var selectPlatform = document.getElementById("list-platform");
+    var divPlatformOptions = document.getElementById("platformOptions");
     var selectOS = document.getElementById("list-os");
     var selectDevice = document.getElementById("list-mobiles");
     var selectBrowser = document.getElementById("list-browser");
-    if (section=="platform"){
+    if (section == "platform"){
         for (var element in responseJson){
-            // console.log(element);
-            optionPlatform = document.createElement("option");
-            optionPlatform.text = element;
-            optionPlatform.value = element;
-            selectPlatform.add(optionPlatform);
+            var sampleDiv = "platform-"+element;
+            console.log(sampleDiv);
+            var platformDiv = document.createElement("div");
+            platformDiv.id = sampleDiv;
+            platformDiv.style.width="50%";
+            platformDiv.style.display = "inline";
+            platformDiv.style.float = "left";
+            divPlatformOptions.appendChild(platformDiv);
+
+            var radioButton = document.createElement("input");
+            radioButton.setAttribute("type","radio");
+            radioButton.setAttribute("value",element);
+            radioButton.setAttribute("name","platform-options");
+            radioButton.setAttribute("id",element);
+            
+            var label = document.createElement("label");
+            label.setAttribute("for",element);
+            label.innerHTML = element;
+            
+            platformDiv.appendChild(radioButton);
+            platformDiv.appendChild(label);
+            
+        }
+        var radioButtonPlatform = document.getElementById("platformOptions").getElementsByTagName("input");
+        console.log(radioButtonPlatform);
+        console.log(radioButtonPlatform.length);
+        for (var a in radioButtonPlatform){
+             if (a==0){
+                radioButtonPlatform[a].checked = true;
+            }
+            radioButtonPlatform[a].onclick = function(){
+                platformFunction("platform");
+            }
         }
         sampleGenerator("OS");
-    }else if (section=="OS"){
+    }else if (section == "OS"){
         cleanPreviousSelection("OS");
-        console.log("OS DROP DOWN TO BE GENERATED FOR "+currentPlatform());
         context = responseJson[currentPlatform()];
-        // console.log(context);
         for (var element in context ){
             tempObject = context[element];
-            // console.log(tempObject.os_display_name);
             optionOS = document.createElement("option");
             optionOS.text = tempObject.os_display_name;
             optionOS.id = tempObject.os;
             optionOS.value = tempObject.os_version;
             selectOS.add(optionOS);
         }
-        if (currentPlatform()=="desktop"){
+        if (currentPlatform() == "desktop"){
             sampleGenerator("browsers");
-        }else if (currentPlatform()=="mobile"){
+        }else if (currentPlatform() == "mobile"){
             sampleGenerator("mobiles");
         }
     }else if (section == "browsers"){
         cleanPreviousSelection("browsers");
-        console.log("BROWSER DROP DOWN TO BE GENERATED FOR "+ currentOS_version() + ":"+currentPlatform());
         context = responseJson[currentPlatform()];
-        // console.log(context);
         for (var element in context){
-            // console.log(element);
-            // console.log(context[element]);
             if (context[element].os_display_name == currentOS_version()){
-                // console.log("Proceed with logic");
                 context_browsers = context[element].browsers; 
-                // console.log(context_browsers);
                 for (var element2 in context_browsers){
-                    // console.log(element2);
                     context_browser_display_name = context_browsers[element2].display_name;
-                    // console.log(context_browser_display_name);
                     optionBrowser = document.createElement("option");
                     optionBrowser.text = context_browser_display_name;
                     optionBrowser.id = context_browsers[element2].browser;
@@ -107,28 +132,17 @@ function sampleGenerator(section){
                     selectBrowser.add(optionBrowser);
                 }
             }
-            /*
-            */
         }
-        // context_os = responseJson[currentOS_version()];
-        // console.log(context_platform);
-        // console.log(context_os);
     }else if(section == "mobiles"){
         cleanPreviousSelection("mobiles");
-        console.log("MOBILES DROP DOWN TO BE GENERATED FOR " + currentOS_version() + ":"+currentPlatform());
+        
         context = responseJson[currentPlatform()];
-        // console.log(context);
         for (var element in context){
-            // console.log(element);
-            // console.log(context[element]);
             if (context[element].os_display_name == currentOS_version()){
-                // console.log("Proceed with logic");
                 context_devices = context[element].devices; 
-                // console.log(context_devices);
                 for (element2 in context_devices){
                     context_mobile_device = context_devices[element2];
                     context_mobile_device_name = context_mobile_device.display_name;
-                    // console.log(context_mobile_device_name);
                     optionDevice = document.createElement("option");
                     optionDevice.text = context_mobile_device_name;
                     optionDevice.value = context_mobile_device_name;
@@ -136,43 +150,40 @@ function sampleGenerator(section){
                 }
             }
         }
-    }else if (section == "mobileBrowsers"){
-        //No need to build this.
     }
 }
 function cleanPreviousSelection(segment){
-    if (segment=="OS"){
+    if (segment == "OS"){
         toClean = document.getElementById("list-os");
         toClean.innerHTML="";
-    }else if (segment=="browsers"){
+    }else if (segment == "browsers"){
         toClean = document.getElementById("list-browser");
         toClean.innerHTML = "";
-    }else if (segment=="mobiles"){
+    }else if (segment == "mobiles"){
         toClean = document.getElementById("list-mobiles");
         toClean.innerHTML = "";
     }
 }
 function currentDevice(){
     var deviceSelectionOption_value = selectMobile.options[selectMobile.selectedIndex].value;
-    // console.log(deviceSelectionOption_value);
     return deviceSelectionOption_value;
 }
 function currentBrowser_forURL(property){
     var selectBrowser = document.getElementById("list-browser");
-    if (property=="id"){
+    if (property == "id"){
         var browserSelectedOption_id = selectBrowser.options[selectBrowser.selectedIndex].id;
         return browserSelectedOption_id;
-    }else if(property=="value"){
+    }else if(property == "value"){
         var browserSelectedOption_value = selectBrowser.options[selectBrowser.selectedIndex].value;
         return browserSelectedOption_value;
     }
 }
 function currentOS_forURL(property){
     var selectOS = document.getElementById("list-os");
-    if (property=="id"){
+    if (property == "id"){
         var osSelectedOption_id = selectOS.options[selectOS.selectedIndex].id;
         return osSelectedOption_id;
-    }else if(property=="value"){
+    }else if(property == "value"){
         var osSelectedOption_value = selectOS.options[selectOS.selectedIndex].value;
         return osSelectedOption_value;
     }
@@ -180,14 +191,15 @@ function currentOS_forURL(property){
 function currentOS_version(){
     var selectOS = document.getElementById("list-os");
     var osSelectedOption = selectOS.options[selectOS.selectedIndex].text;
-    // console.log(osSelectedOption);
     return osSelectedOption
 }
-function currentPlatform(){
-    var selectPlatform = document.getElementById("list-platform");
-    var platformSelectedOption = selectPlatform.options[selectPlatform.selectedIndex].text;
-    // console.log(typeof(platformSelectedOption));
-    return platformSelectedOption
+function currentPlatform(){    
+    var radioButtonPlatform = document.getElementById("platformOptions").getElementsByTagName("input");
+    for (var a in radioButtonPlatform){
+        if (radioButtonPlatform[a].checked){
+            return radioButtonPlatform[a].value;
+        }
+    }
 }
 
 function browserstack(){
@@ -198,16 +210,14 @@ function browserstack(){
     var userURL = document.getElementById("input-url").value;
     
     var finalURL = "";
-
-    if (currentPlatform()=="desktop"){
+    
+    if (currentPlatform() == "desktop"){
         var os_version = currentOS_forURL("value");
         var browser = currentBrowser_forURL("id");
         var browser_version= currentBrowser_forURL("value");
         
-        finalURL=staticURL+"os="+os+"&os_version="+os_version+"&browser="+browser+"&browser_version="+browser_version+"&start="+start+"&url="+userURL;
-        // var finalURL="https://os="+os+"&os_version="+os_version+"&browser="+browser+"&browser_version="+browser_version+"&start="+start+"&url="+userURL;
-        
-    }else if (currentPlatform()=="mobile"){
+        finalURL=staticURL+"os="+os+"&os_version="+os_version+"&browser="+browser+"&browser_version="+browser_version+"&start="+start+"&url="+userURL;        
+    }else if (currentPlatform() == "mobile"){
         var device = currentDevice();
         finalURL = staticURL+"os="+os+"&device="+device+"&start=true&url="+userURL;
     }else{
@@ -217,9 +227,6 @@ function browserstack(){
 }
 
 function init(){
-    selectPlatform.onchange = function() {
-        platformFunction('platform');
-    }
     selectOS.onchange = function() {
         platformFunction("OS");
     }
@@ -229,7 +236,19 @@ function init(){
     submitButton.onclick = function(){
         browserstack();
     }
-
+    var urlErrorLabel = document.getElementById("url-warning");
+    var inputURL = document.getElementById("input-url");
+    var loadURLButton = document.getElementById('submit-button');
+    inputURL.onchange = function(){
+        var pattern = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+        if (!pattern.test(inputURL.value)) { 
+            urlErrorLabel.innerText = "Enter a valid URL!"
+            loadURLButton.disabled = true;
+        }else{
+            urlErrorLabel.innerText = "";
+            loadURLButton.disabled = false;
+        }
+    }
 }
 init();
 ajaxCall();

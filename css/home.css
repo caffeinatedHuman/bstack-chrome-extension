@@ -8,10 +8,6 @@ body{
     margin-bottom: 3%;
     overflow: auto;
 }
-#bar{
-    /* padding-left: 1%; */
-    /* overflow: visible; */
-}
 #brand-image{
     width: 97%;
     float: left;
@@ -25,7 +21,7 @@ body{
     font-size: 1em;
     overflow: auto;
 }
-#platform,#os,#mobiles,#browser{
+#platform, #os, #mobiles, #browser{
     width: 100%;
     overflow: auto;
 }

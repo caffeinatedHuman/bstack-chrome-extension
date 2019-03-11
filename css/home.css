@@ -1,11 +1,11 @@
 body{
-    overflow: auto;
     background-color: #142433;
     color: white;
+    width: 350px;
 }
-#branding,#bar {
-    width: 100%;
-    margin-bottom: 3%;
+#branding, #bar{
+    width: 98%;
+    margin: 1%;
     overflow: auto;
 }
 #brand-image{
@@ -13,33 +13,52 @@ body{
     float: left;
     margin-bottom: 3%;
 }
-#brand-name{
-    margin-left: 1%;
-}
 #selectors{
-    display: inline;
-    font-size: 1em;
+    font-size: 1.5em;
     overflow: auto;
 }
 #platform, #os, #mobiles, #browser{
-    width: 100%;
+    width: 96%;
     overflow: auto;
+    margin: 2%;
 }
-#context-image{
-    float: left;
-    width: 10%;
+#platformOptions p, #OSOptions p, #mobileOptions p, #browserOptions p{
+    margin-bottom: 1%;
+}
+select{
+    height: 45px;
+}
+#os, #mobiles, #browser{
+    margin-bottom: 2%;
+}
+#mobile{
+    margin-left: 8%;
 }
 #list-platform,#list-os,#list-mobiles,#list-browser{
-    width: 90%;
+    width: 100%;
     float: right;
     font-size: 1em;
 }
-#list-mobiles{
+#mobiles{
     display: none;
+}
+#url-container{
+    font-size: 1em;
+    margin: 2%;
+    width: 98%;
+    font-size: 1em;
 }
 #test-url-text{
     margin-top: 5%; 
-    margin-bottom: 0;
+    margin-bottom: 2%;
+}
+#input-url{
+    width: 100%;
+    font-size:1em;
+    border-style: none;
+    border-radius: 1%;
+    padding: 3%;
+    margin-bottom: 2%;
 }
 #submit-button{
     width: 100%;
@@ -48,8 +67,15 @@ body{
     margin-top: 5%; 
     background-color: #009cfc;
     border-style: none;
+    font-size: 1em;
+}
+#url-warning{
+    color: red;
+    font-size: 1.5em;
+    margin-left: 5%;
 }
 #submit-button:hover{
     cursor: pointer;
     background-color: #7dfd94;
+    font-size: 1.3em;
 }

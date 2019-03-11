@@ -4,7 +4,7 @@ body{
     color: white;
 }
 #branding,#bar {
-    width:100%;
+    width: 100%;
     margin-bottom: 3%;
     overflow: auto;
 }
@@ -30,7 +30,7 @@ body{
     width: 10%;
 }
 #list-platform,#list-os,#list-mobiles,#list-browser{
-    width:90%;
+    width: 90%;
     float: right;
     font-size: 1em;
 }
@@ -38,7 +38,7 @@ body{
     display: none;
 }
 #test-url-text{
-    margin-top:5%; 
+    margin-top: 5%; 
     margin-bottom: 0;
 }
 #submit-button{

@@ -9,26 +9,39 @@
       <!-- <p id="brand-name">BrowserStack</p> -->
     </div>
   </div>
-
+  
   <form id="selectors">
     <div id="option-selectors">
       <div id="platform">
-        <img src="images/platform.png" alt="" id="context-image">
-        <select name="" id="list-platform"></select>
+        <div id="platformOptions">
+          <p>Select Platform:</p>
+        </div>
       </div>
       <div id="os">
-        <select name="" id="list-os"></select>
+        <div id="OSOptions">
+          <p>Select OS:</p>
+          <select name="" id="list-os"></select>
+        </div>
       </div>
       <div id="mobiles">
-        <select name="" id="list-mobiles"></select>
+        <div id="mobileOptions">
+          <p>Select Device:</p>
+          <select name="" id="list-mobiles"></select>
+        </div>
       </div>
       <div id="browser">
-        <select name="" id="list-browser"></select>
+        <div id="browserOptions">
+          <p>Select Browser:</p>
+          <select name="" id="list-browser"></select>
+        </div>
       </div>
     </div>
-
-    <p id="test-url-text">Test URL:</p>
-    <input type="text" id="input-url" placeholder="https://www.browserstack.com">
+    
+    <div id="url-container">
+      <p id="test-url-text">Test URL:</p>
+      <input type="text" id="input-url" placeholder="https://www.browserstack.com">
+      <label id="url-warning"></label>
+    </div>
     <button id="submit-button">Load Device</button>
   </form>
 </body>

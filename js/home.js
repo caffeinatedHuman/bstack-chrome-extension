@@ -1,24 +1,25 @@
 var responseJson;
 
-var selectOS = document.getElementById("list-os");
-var selectMobile = document.getElementById("list-mobiles");
-var selectBrowser = document.getElementById("list-browser");
-var submitButton = document.getElementById("submit-button");
+var htmlElements = (function(){
+    
+    return {
+        selectOS : document.getElementById("list-os"),
+        selectMobile : document.getElementById("list-mobiles"),
+        selectBrowser : document.getElementById("list-browser"),
+        selectDevice : document.getElementById("list-mobiles"),
+        submitButton : document.getElementById("submit-button")
+    };
+})();
 
 function ajaxCall(){
     var httpRequest = new XMLHttpRequest();
     httpRequest.open('GET','https://www.browserstack.com/list-of-browsers-and-platforms.json?product=live',true);
-    
     httpRequest.onreadystatechange = function (){
         
         if(httpRequest.readyState === XMLHttpRequest.DONE){
             responseJson = JSON.parse(httpRequest.response);
             console.log(responseJson);
-            
-            sampleGenerator("platform");
-            
-        }else{
-            console.log('AJAX Request not ready.');
+            sampleGenerator("platform");    
         }
     };  
     httpRequest.send();
@@ -26,30 +27,19 @@ function ajaxCall(){
 
 function platformFunction(caller){
     if (caller == "platform"){
-        var divPlatform = document.getElementById("platform");
-        var divOS = document.getElementById("os");
         var divMobiles = document.getElementById("mobiles");
         var divBrowser = document.getElementById("browser");
-        var selectMobile = document.getElementById("list-mobiles");
-        var selectBrowser = document.getElementById("list-browser");
         if (currentPlatform() == "mobile"){
-            // selectMobile.style.display = "block";
-            // selectBrowser.style.display = "none";
-            
             divMobiles.style.display = "block";
             divBrowser.style.display = "none";
         }else{
-            // selectMobile.style.display = "none";
-            // selectBrowser.style.display = "block";
-            
             divMobiles.style.display = "none";
             divBrowser.style.display = "block";
         }
         sampleGenerator("OS");
     }else if (caller == "OS"){
         if (currentPlatform() == "mobile"){
-            var selectMobile = document.getElementById("list-mobiles");
-            selectMobile.style.display = "block";
+            htmlElements.selectMobile.style.display = "block";
             sampleGenerator("mobiles");
         }else{
             sampleGenerator("browsers");
@@ -61,20 +51,16 @@ function platformFunction(caller){
 
 function sampleGenerator(section){
     var divPlatformOptions = document.getElementById("platformOptions");
-    var selectOS = document.getElementById("list-os");
-    var selectDevice = document.getElementById("list-mobiles");
-    var selectBrowser = document.getElementById("list-browser");
     if (section == "platform"){
         for (var element in responseJson){
             var sampleDiv = "platform-"+element;
-            console.log(sampleDiv);
             var platformDiv = document.createElement("div");
             platformDiv.id = sampleDiv;
             platformDiv.style.width="50%";
             platformDiv.style.display = "inline";
             platformDiv.style.float = "left";
             divPlatformOptions.appendChild(platformDiv);
-
+            
             var radioButton = document.createElement("input");
             radioButton.setAttribute("type","radio");
             radioButton.setAttribute("value",element);
@@ -90,10 +76,8 @@ function sampleGenerator(section){
             
         }
         var radioButtonPlatform = document.getElementById("platformOptions").getElementsByTagName("input");
-        console.log(radioButtonPlatform);
-        console.log(radioButtonPlatform.length);
         for (var a in radioButtonPlatform){
-             if (a==0){
+            if (a==0){
                 radioButtonPlatform[a].checked = true;
             }
             radioButtonPlatform[a].onclick = function(){
@@ -110,7 +94,7 @@ function sampleGenerator(section){
             optionOS.text = tempObject.os_display_name;
             optionOS.id = tempObject.os;
             optionOS.value = tempObject.os_version;
-            selectOS.add(optionOS);
+            htmlElements.selectOS.add(optionOS);
         }
         if (currentPlatform() == "desktop"){
             sampleGenerator("browsers");
@@ -129,7 +113,7 @@ function sampleGenerator(section){
                     optionBrowser.text = context_browser_display_name;
                     optionBrowser.id = context_browsers[element2].browser;
                     optionBrowser.value = context_browsers[element2].browser_version;
-                    selectBrowser.add(optionBrowser);
+                    htmlElements.selectBrowser.add(optionBrowser);
                 }
             }
         }
@@ -146,7 +130,7 @@ function sampleGenerator(section){
                     optionDevice = document.createElement("option");
                     optionDevice.text = context_mobile_device_name;
                     optionDevice.value = context_mobile_device_name;
-                    selectDevice.add(optionDevice);
+                    htmlElements.selectDevice.add(optionDevice);
                 }
             }
         }
@@ -179,18 +163,16 @@ function currentBrowser_forURL(property){
     }
 }
 function currentOS_forURL(property){
-    var selectOS = document.getElementById("list-os");
     if (property == "id"){
-        var osSelectedOption_id = selectOS.options[selectOS.selectedIndex].id;
+        var osSelectedOption_id = htmlElements.selectOS.options[selectOS.selectedIndex].id;
         return osSelectedOption_id;
     }else if(property == "value"){
-        var osSelectedOption_value = selectOS.options[selectOS.selectedIndex].value;
+        var osSelectedOption_value = htmlElements.selectOS.options[selectOS.selectedIndex].value;
         return osSelectedOption_value;
     }
 }
 function currentOS_version(){
-    var selectOS = document.getElementById("list-os");
-    var osSelectedOption = selectOS.options[selectOS.selectedIndex].text;
+    var osSelectedOption = htmlElements.selectOS.options[htmlElements.selectOS.selectedIndex].text;
     return osSelectedOption
 }
 function currentPlatform(){    
@@ -201,9 +183,9 @@ function currentPlatform(){
         }
     }
 }
-
 function browserstack(){
     var staticURL = "https://live.browserstack.com/dashboard#";
+    
     // Variables common across platforms:
     var os = currentOS_forURL("id");
     var start=true;
@@ -227,13 +209,13 @@ function browserstack(){
 }
 
 function init(){
-    selectOS.onchange = function() {
+    htmlElements.selectOS.onchange = function(){
         platformFunction("OS");
     }
-    selectMobile.onchange = function (){
+    htmlElements.selectMobile.onchange = function (){
         platformFunction("mobile")
     } 
-    submitButton.onclick = function(){
+    htmlElements.submitButton.onclick = function(){
         browserstack();
     }
     var urlErrorLabel = document.getElementById("url-warning");

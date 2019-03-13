@@ -22,9 +22,6 @@ body{
     overflow: auto;
     margin: 2%;
 }
-#platformOptions p, #OSOptions p, #mobileOptions p, #browserOptions p{
-    margin-bottom: 1%;
-}
 select{
     height: 45px;
 }
@@ -34,7 +31,7 @@ select{
 #mobile{
     margin-left: 8%;
 }
-#list-platform,#list-os,#list-mobiles,#list-browser{
+#list-platform, #list-os, #list-mobiles, #list-browser{
     width: 100%;
     float: right;
     font-size: 1em;
@@ -54,7 +51,7 @@ select{
 }
 #input-url{
     width: 94%;
-    font-size:1em;
+    font-size: 1em;
     border-style: none;
     border-radius: 1%;
     padding: 3%;

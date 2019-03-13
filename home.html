@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <div id="branding">
+    <div id="bar">
+      <img src="images/header-logo.svg" alt="" id="brand-image">
+    </div>
+  </div>
+  
+  <form id="selectors">
+    <div id="option-selectors">
+      <div id="platform">
+        <div id="platformOptions">
+          <p>Select Platform:</p>
+        </div>
+      </div>
+      <div id="os">
+        <div id="OSOptions">
+          <label for="list-os">Select OS:</label>
+          <select name="" id="list-os"></select>
+        </div>
+      </div>
+      <div id="mobiles">
+        <div id="mobileOptions">
+          <label for="list-mobiles">Select Device:</label>
+          <select name="" id="list-mobiles"></select>
+        </div>
+      </div>
+      <div id="browser">
+        <div id="browserOptions">
+          <label for="list-browser">Select Browser:</label>
+          <select name="" id="list-browser"></select>
+        </div>
+      </div>
+    </div>
+    
+    <div id="url-container">
+      <label for="input-url" id="test-url-text">Test URL:</label>
+      <input type="text" id="input-url" placeholder="https://www.browserstack.com">
+      <label id="url-warning"></label>
+    </div>
+    <button id="submit-button">Load Device</button>
+  </form>
+</body>
+<script src="js/home.js"></script>
+</html>
+

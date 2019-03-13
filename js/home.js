@@ -1,13 +1,45 @@
-var responseJson;
-
 var extensionUtilities = (function (){
-    console.log("extensionUtilitiy ran");
+    var responseJson;
     selectOS = document.getElementById("list-os");
     selectMobile = document.getElementById("list-mobiles");
     selectBrowser = document.getElementById("list-browser");
     selectDevice = document.getElementById("list-mobiles");
     submitButton = document.getElementById("submit-button");
     
+    selectOS.onchange = function(){
+        extensionUtilities.platformFunction("OS");
+    }
+    selectMobile.onchange = function (){
+        extensionUtilities.platformFunction("mobile")
+    }
+    submitButton.onclick = function(){
+        extensionUtilities.browserstack();
+    }
+    var urlErrorLabel = document.getElementById("url-warning");
+    var inputURL = document.getElementById("input-url");
+    var loadURLButton = document.getElementById('submit-button');
+    inputURL.onchange = function(){
+        var pattern = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
+        if (!pattern.test(inputURL.value)) {
+            urlErrorLabel.innerText = "Enter a valid URL!"
+            loadURLButton.disabled = true;
+        }else{
+            urlErrorLabel.innerText = "";
+            loadURLButton.disabled = false;
+        }
+    }
+    function ajax(){
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.open('GET','https://www.browserstack.com/list-of-browsers-and-platforms.json?product=live',true);
+        httpRequest.onreadystatechange = function (){
+            
+            if(httpRequest.readyState === XMLHttpRequest.DONE){
+                responseJson = JSON.parse(httpRequest.response);
+                extensionUtilities.sampleGenerator("platform");
+            }
+        };
+        httpRequest.send();
+    }
     function _platformFunction(caller){
         if (caller == "platform"){
             var divMobiles = document.getElementById("mobiles");
@@ -31,7 +63,6 @@ var extensionUtilities = (function (){
             _sampleGenerator("mobileBrowsers");
         }
     }
-    
     function _sampleGenerator(section){
         var divPlatformOptions = document.getElementById("platformOptions");
         if (section == "platform"){
@@ -134,7 +165,7 @@ var extensionUtilities = (function (){
             var osSelectedOption_id = selectOS.options[selectOS.selectedIndex].id;
             return osSelectedOption_id;
         }else if(property == "value"){
-            var osSelectedOption_value = htmlElements.selectOS.options[selectOS.selectedIndex].value;
+            var osSelectedOption_value = selectOS.options[selectOS.selectedIndex].value;
             return osSelectedOption_value;
         }
     }
@@ -165,7 +196,6 @@ var extensionUtilities = (function (){
         return osSelectedOption
     }
     function _browserstack(){
-        console.log("Browserstack called");
         var staticURL = "https://live.browserstack.com/dashboard#";
         
         // Variables common across platforms:
@@ -188,6 +218,8 @@ var extensionUtilities = (function (){
         window.open(finalURL,"_blank");
     }
     
+    ajax();
+    
     return {
         selectOS : selectOS,
         selectMobile : selectMobile,
@@ -199,47 +231,3 @@ var extensionUtilities = (function (){
         browserstack: _browserstack
     }
 })();
-
-var root = (function(){
-    console.log("root ran");
-    console.log("init executed");
-    extensionUtilities.selectOS.onchange = function(){
-        extensionUtilities.platformFunction("OS");
-    }
-    extensionUtilities.selectMobile.onchange = function (){
-        extensionUtilities.platformFunction("mobile")
-    }
-    extensionUtilities.submitButton.onclick = function(){
-        extensionUtilities.browserstack();
-    }
-    var urlErrorLabel = document.getElementById("url-warning");
-    var inputURL = document.getElementById("input-url");
-    var loadURLButton = document.getElementById('submit-button');
-    inputURL.onchange = function(){
-        var pattern = /^(http[s]?:\/\/){0,1}(www\.){0,1}[a-zA-Z0-9\.\-]+\.[a-zA-Z]{2,5}[\.]{0,1}/;
-        if (!pattern.test(inputURL.value)) {
-            urlErrorLabel.innerText = "Enter a valid URL!"
-            loadURLButton.disabled = true;
-        }else{
-            urlErrorLabel.innerText = "";
-            loadURLButton.disabled = false;
-        }
-    }
-    
-    ajax();
-    
-    function ajax(){
-        var httpRequest = new XMLHttpRequest();
-        httpRequest.open('GET','https://www.browserstack.com/list-of-browsers-and-platforms.json?product=live',true);
-        httpRequest.onreadystatechange = function (){
-            
-            if(httpRequest.readyState === XMLHttpRequest.DONE){
-                responseJson = JSON.parse(httpRequest.response);
-                extensionUtilities.sampleGenerator("platform");
-            }
-        };
-        httpRequest.send();
-    }
-})();
-
-// root.init;
